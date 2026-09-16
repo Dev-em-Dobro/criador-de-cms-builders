@@ -35,7 +35,9 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
+          # A versão vem do "packageManager" do package.json. Declarar
+          # "version:" aqui também faz a action abortar com "Multiple versions
+          # of pnpm specified".
           run_install: false
 
       - name: Setup Node.js
