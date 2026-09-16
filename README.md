@@ -215,3 +215,11 @@ O core tem um teste de **equivalência** que compara o que os builders produzem
 contra o schema literal do CMS que deu origem à fábrica. É ele que garante que
 uma mudança no gerador não altere silenciosamente o comportamento dos CMS já
 entregues.
+
+---
+
+## Licença
+
+MIT — veja [LICENSE](LICENSE). Forke, modifique e cobre pelos CMS que você
+gerar com isto. O único requisito é manter o aviso de copyright junto com o
+código.

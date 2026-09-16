@@ -2,6 +2,7 @@
   "name": "criador-de-cms",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "description": "Fábrica de CMS — monorepo (packages/core @cms-core + cli + clients/*).",
   "workspaces": [
     "packages/*",
