@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react-jsx",
+    "types": ["node", "vitest/globals"],
+    "baseUrl": ".",
+    "paths": {
+      "@cms-core/core/config": ["./src/config/index.ts"],
+      "@cms-core/core/engine": ["./src/engine/index.ts"],
+      "@cms-core/core/auth": ["./src/auth/index.ts"],
+      "@cms-core/core/media": ["./src/media/index.ts"],
+      "@cms-core/core": ["./src/index.ts"],
+      "@cms-core/core/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "../../templates/config-examples/**/*.ts"
+  ],
+  "exclude": ["node_modules", "dist"]
+}

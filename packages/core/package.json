@@ -1,0 +1,106 @@
+{
+  "name": "@cms-core/core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Core do @cms-core/core: contrato ClientConfig, validador Zod, builders, motor de conteúdo, auth e mídia (Fábrica de CMS).",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "development": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./errors": {
+      "development": "./src/errors.ts",
+      "types": "./dist/errors.d.ts",
+      "default": "./dist/errors.js"
+    },
+    "./config": {
+      "development": "./src/config/index.ts",
+      "types": "./dist/config/index.d.ts",
+      "default": "./dist/config/index.js"
+    },
+    "./engine": {
+      "development": "./src/engine/index.ts",
+      "types": "./dist/engine/index.d.ts",
+      "default": "./dist/engine/index.js"
+    },
+    "./auth": {
+      "development": "./src/auth/index.ts",
+      "types": "./dist/auth/index.d.ts",
+      "default": "./dist/auth/index.js"
+    },
+    "./media": {
+      "development": "./src/media/index.ts",
+      "types": "./dist/media/index.d.ts",
+      "default": "./dist/media/index.js"
+    },
+    "./media/validate": {
+      "development": "./src/media/validate.ts",
+      "types": "./dist/media/validate.d.ts",
+      "default": "./dist/media/validate.js"
+    },
+    "./i18n": {
+      "development": "./src/i18n/index.ts",
+      "types": "./dist/i18n/index.d.ts",
+      "default": "./dist/i18n/index.js"
+    },
+    "./webhooks": {
+      "development": "./src/webhooks/index.ts",
+      "types": "./dist/webhooks/index.d.ts",
+      "default": "./dist/webhooks/index.js"
+    },
+    "./audit": {
+      "development": "./src/audit/index.ts",
+      "types": "./dist/audit/index.d.ts",
+      "default": "./dist/audit/index.js"
+    },
+    "./ui": {
+      "development": "./src/ui/index.ts",
+      "types": "./dist/ui/index.d.ts",
+      "default": "./dist/ui/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "build:watch": "tsc -p tsconfig.build.json --watch",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
+    "prepublishOnly": "npm run build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:update": "vitest run --update"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.12.3",
+    "@supabase/supabase-js": "^2.110.7",
+    "drizzle-orm": "^0.45.2",
+    "jose": "^6.2.3",
+    "postgres": "^3.4.9",
+    "sanitize-html": "^2.17.6",
+    "server-only": "^0.0.1",
+    "sharp": "^0.35.3",
+    "zod": "^4.0.0"
+  },
+  "peerDependencies": {
+    "next": ">=15",
+    "quill": "^2.0.0",
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": { "optional": true },
+    "quill": { "optional": true }
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/react": "^19.2.17",
+    "@types/sanitize-html": "^2.16.1",
+    "next": "^16.2.10",
+    "quill": "^2.0.3",
+    "react": "^19.2.7",
+    "typescript": "^5.9.0",
+    "vitest": "^2.1.0"
+  }
+}

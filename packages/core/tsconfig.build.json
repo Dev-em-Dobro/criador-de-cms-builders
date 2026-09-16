@@ -1,0 +1,37 @@
+{
+  // Build config (emit) — ADR-004 Opção A: `tsc → dist/`.
+  //
+  // Emite `dist/*.js` (specifiers `.js` reais preservados verbatim) + `dist/*.d.ts`,
+  // para o `next build` de produção (Turbopack) resolver o core nativamente.
+  //
+  // moduleResolution: "Bundler" (não "NodeNext"):
+  // TypeScript NUNCA reescreve module specifiers no emit — copia-os verbatim.
+  // Os imports do core já estão no formato canônico `.js` (NodeNext-limpo, ver
+  // ADR-004 §3 + AC1), então QUALQUER modo de emit preserva os `.js` reais.
+  // "NodeNext" seria o modo "correto" no papel, MAS os `.d.ts` de peer-deps do
+  // Next (`next/server`, `next/headers`, `next/link`, `next/navigation`) NÃO são
+  // NodeNext-resolúveis (re-exportam `next/dist/...` extensionless sem `exports`
+  // map) → 5× TS2307 → `tsc` exit 2, reprovando AC4 (exit 0). "Bundler" resolve
+  // esses tipos (é o modo que o próprio Next recomenda) E preserva os `.js` no
+  // emit (verificado: 76 specifiers `.js` + CSS side-effect do Quill intactos).
+  // Desvio justificado de ADR-004 §4.1 para cumprir o gate exit-0 da própria ADR.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "emitDeclarationOnly": false
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/**/*.test.ts",
+    "src/**/__tests__/**"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "@cms-core/cli",
+  "version": "0.1.0",
+  "private": true,
+  "description": "CLI da fábrica de CMS — codegen (gen-enums, gen-content-types, …), scaffold e provisionamento. Consome @cms-core/core.",
+  "type": "module",
+  "bin": {
+    "cms-core": "./src/codegen/run.ts",
+    "cms-factory": "./bin/cms-factory.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "generate": "tsx src/codegen/run.ts",
+    "cms-factory": "tsx bin/cms-factory.ts"
+  },
+  "dependencies": {
+    "@cms-core/core": "workspace:*",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsx": "^4.23.1",
+    "typescript": "^5.9.3",
+    "vitest": "^2.1.0"
+  }
+}

@@ -1,0 +1,54 @@
+# ── Segredos ────────────────────────────────────────────────────────────────
+# Nada abaixo daqui pode entrar num commit. Se precisar de um exemplo, use os
+# arquivos `*.example`, que carregam só o NOME das variáveis.
+.env
+.env.local
+.env.*.local
+**/.env.local
+**/.env.*.local
+*.key
+*.pem
+
+# Tokens do operador usados pelo provisionamento (`cms-factory create-client`).
+.factory.env
+.factory.creds
+
+# Estado do provisionamento — guarda IDs de recursos reais criados nos providers.
+**/.provision-state.json
+.factory-state/
+secrets/
+
+# ── Dependências e build ────────────────────────────────────────────────────
+node_modules/
+.pnpm-store/
+dist/
+packages/core/dist/
+build/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+*.log
+logs/
+
+# Drizzle
+/drizzle
+
+# Artefatos de teste
+/playwright-report
+/test-results
+
+# ── Ferramentas locais ──────────────────────────────────────────────────────
+# Link com o projeto da Vercel — por máquina, nunca versionado.
+.vercel/
+
+# Configuração pessoal de editor/IDE e assistentes de código.
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+.claude/settings.local.json
+
+# Scripts temporários de investigação.
+**/scripts/_tmp-*

@@ -1,0 +1,5 @@
+# Os ClientConfig dos seus clientes moram aqui — um `<slug>.config.ts` por
+# cliente. Comece copiando um exemplo de `templates/config-examples/`.
+#
+# Só nomes, domínios, regiões e cores. Nenhuma chave: essas vão em
+# `clients/<slug>/.env.local` e em `.factory.env`, os dois fora do git.

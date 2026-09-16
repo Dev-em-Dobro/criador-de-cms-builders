@@ -1,0 +1,376 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`gold-standard equivalence — FIELDS (AC4) > buildFields snapshot (gold-standard baseline) 1`] = `
+{
+  "case": [
+    {
+      "kind": "stringList",
+      "label": "Tags",
+      "name": "tags",
+    },
+    {
+      "kind": "text",
+      "label": "Page title",
+      "name": "title",
+      "required": true,
+    },
+    {
+      "kind": "textarea",
+      "label": "Quote",
+      "name": "quote",
+    },
+    {
+      "kind": "text",
+      "label": "Quoter",
+      "name": "quoter",
+    },
+    {
+      "help": "Video that autoplays without sound",
+      "kind": "url",
+      "label": "Interview video (URL)",
+      "name": "mutedVideoUrl",
+    },
+    {
+      "help": "watch / youtu.be / embed / shorts link",
+      "kind": "url",
+      "label": "YouTube video (URL)",
+      "name": "youtube",
+    },
+    {
+      "help": "6-digit hex, e.g. #1a2b3c (leave blank to use the default)",
+      "kind": "text",
+      "label": "Brand colour",
+      "name": "brandColor",
+    },
+    {
+      "help": "Transparent PNG, up to 1024×1024",
+      "kind": "media",
+      "label": "Brand logo",
+      "name": "logoMediaId",
+      "uploadField": "logo",
+    },
+    {
+      "kind": "richtext",
+      "label": "Introduction",
+      "name": "introduction",
+    },
+    {
+      "kind": "richtext",
+      "label": "Text",
+      "name": "text",
+    },
+    {
+      "kind": "facets",
+      "label": "Classification",
+      "name": "industryFacets",
+    },
+  ],
+  "insight": [
+    {
+      "kind": "stringList",
+      "label": "Tags",
+      "name": "tags",
+    },
+    {
+      "kind": "text",
+      "label": "Title",
+      "name": "title",
+      "required": true,
+    },
+    {
+      "help": "Shown as “By …” on the insight",
+      "kind": "text",
+      "label": "Author",
+      "name": "author",
+    },
+    {
+      "kind": "richtext",
+      "label": "Excerpt",
+      "name": "excerpt",
+    },
+    {
+      "kind": "richtext",
+      "label": "Body",
+      "name": "body",
+      "required": true,
+    },
+    {
+      "kind": "media",
+      "label": "Cover image",
+      "name": "coverMediaId",
+    },
+    {
+      "help": "watch / youtu.be / embed / shorts link",
+      "kind": "url",
+      "label": "YouTube video (URL)",
+      "name": "youtube",
+    },
+    {
+      "kind": "date",
+      "label": "Published date",
+      "name": "publishedDate",
+    },
+  ],
+  "page_5h": [
+    {
+      "kind": "text",
+      "label": "Title",
+      "name": "title",
+      "required": true,
+    },
+    {
+      "kind": "richtext",
+      "label": "Intro",
+      "name": "intro",
+    },
+    {
+      "kind": "json",
+      "label": "Elements [ {key,title,description} ]",
+      "name": "elements",
+    },
+    {
+      "help": "watch / youtu.be / embed / shorts link",
+      "kind": "url",
+      "label": "YouTube video (URL)",
+      "name": "youtube",
+    },
+    {
+      "kind": "text",
+      "label": "CTA label",
+      "name": "ctaLabel",
+    },
+    {
+      "kind": "text",
+      "label": "CTA href",
+      "name": "ctaHref",
+    },
+  ],
+  "page_awards": [
+    {
+      "kind": "text",
+      "label": "Title",
+      "name": "title",
+      "required": true,
+    },
+    {
+      "kind": "json",
+      "label": "Items [ {name,year,logoMediaId} ]",
+      "name": "items",
+    },
+  ],
+  "page_book": [
+    {
+      "kind": "text",
+      "label": "Title",
+      "name": "title",
+      "required": true,
+    },
+    {
+      "kind": "richtext",
+      "label": "Description",
+      "name": "description",
+      "required": true,
+    },
+    {
+      "kind": "media",
+      "label": "Cover image",
+      "name": "coverMediaId",
+    },
+    {
+      "help": "watch / youtu.be / embed / shorts link",
+      "kind": "url",
+      "label": "YouTube video (URL)",
+      "name": "youtube",
+    },
+    {
+      "kind": "url",
+      "label": "Purchase URL",
+      "name": "purchaseUrl",
+      "required": true,
+    },
+  ],
+  "page_legal": [
+    {
+      "kind": "text",
+      "label": "Title",
+      "name": "title",
+      "required": true,
+    },
+    {
+      "kind": "richtext",
+      "label": "Body",
+      "name": "body",
+      "required": true,
+    },
+  ],
+  "person": [
+    {
+      "kind": "text",
+      "label": "Name",
+      "name": "name",
+      "required": true,
+    },
+    {
+      "kind": "text",
+      "label": "Role",
+      "name": "role",
+      "required": true,
+    },
+    {
+      "kind": "richtext",
+      "label": "Bio",
+      "name": "bio",
+      "required": true,
+    },
+    {
+      "kind": "media",
+      "label": "Photo",
+      "name": "photoMediaId",
+    },
+    {
+      "kind": "text",
+      "label": "Region slug",
+      "name": "regionSlug",
+    },
+    {
+      "kind": "url",
+      "label": "LinkedIn URL",
+      "name": "linkedin",
+    },
+    {
+      "kind": "url",
+      "label": "Instagram URL",
+      "name": "instagram",
+    },
+    {
+      "kind": "url",
+      "label": "Facebook URL",
+      "name": "facebook",
+    },
+    {
+      "kind": "url",
+      "label": "X (Twitter) URL",
+      "name": "x",
+    },
+    {
+      "kind": "email",
+      "label": "Email",
+      "name": "email",
+    },
+  ],
+  "region": [
+    {
+      "kind": "text",
+      "label": "Name",
+      "name": "name",
+      "required": true,
+    },
+    {
+      "kind": "text",
+      "label": "City",
+      "name": "city",
+      "required": true,
+    },
+    {
+      "kind": "text",
+      "label": "Country",
+      "name": "country",
+    },
+    {
+      "kind": "richtext",
+      "label": "Summary",
+      "name": "summary",
+    },
+    {
+      "kind": "stringList",
+      "label": "Address lines",
+      "name": "addressLines",
+    },
+  ],
+  "solution": [
+    {
+      "kind": "text",
+      "label": "Title",
+      "name": "title",
+      "required": true,
+    },
+    {
+      "help": "Background image for the banner",
+      "kind": "media",
+      "label": "Banner background image",
+      "name": "bannerMediaId",
+      "uploadField": "banner",
+    },
+    {
+      "kind": "richtext",
+      "label": "Problem statement",
+      "name": "problemStatement",
+      "required": true,
+    },
+    {
+      "kind": "richtext",
+      "label": "Body",
+      "name": "body",
+    },
+  ],
+}
+`;
+
+exports[`gold-standard equivalence — REGISTRY (AC3) > buildRegistry snapshot (gold-standard baseline) 1`] = `
+{
+  "case": {
+    "label": "Case study",
+    "segment": "cases",
+    "singleton": false,
+    "type": "case",
+  },
+  "insight": {
+    "label": "Insight",
+    "segment": "insights",
+    "singleton": false,
+    "type": "insight",
+  },
+  "page_5h": {
+    "label": "5H Framework page",
+    "segment": undefined,
+    "singleton": true,
+    "type": "page_5h",
+  },
+  "page_awards": {
+    "label": "Awards & partnerships",
+    "segment": undefined,
+    "singleton": true,
+    "type": "page_awards",
+  },
+  "page_book": {
+    "label": "Book page",
+    "segment": undefined,
+    "singleton": true,
+    "type": "page_book",
+  },
+  "page_legal": {
+    "label": "Legal page",
+    "segment": undefined,
+    "singleton": true,
+    "type": "page_legal",
+  },
+  "person": {
+    "label": "Person",
+    "segment": "people",
+    "singleton": false,
+    "type": "person",
+  },
+  "region": {
+    "label": "Region",
+    "segment": "regions",
+    "singleton": false,
+    "type": "region",
+  },
+  "solution": {
+    "label": "Solution",
+    "segment": "solutions",
+    "singleton": false,
+    "type": "solution",
+  },
+}
+`;

@@ -1,0 +1,66 @@
+# .github/workflows/core-blast-radius.yml
+#
+# Mitigação obrigatória do trade-off de D1 (monorepo sem versionamento
+# independente por cliente). A cada mudança em packages/core, roda o
+# typecheck + testes de TODOS os workspaces clients/* — capturando qualquer
+# regressão do core ANTES do deploy. Sem este gate, o trade-off de D1 vira
+# risco não-mitigado (blast radius de código = N clientes).
+#
+# Ref: §3, §7.7, §8.1, §11.1 do docs/architecture/cms-factory-architecture.md
+# Story: S1.5 (Fase 1, Epic 001 — Fábrica de CMS)
+name: Core blast-radius gate
+
+on:
+  push:
+    paths:
+      - "packages/core/**"
+      # O próprio gate e o lockfile também disparam o gate (mudanças que
+      # afetam a resolução do core linkado ou a CI).
+      - "pnpm-lock.yaml"
+      - ".github/workflows/core-blast-radius.yml"
+  pull_request:
+    paths:
+      - "packages/core/**"
+      - "pnpm-lock.yaml"
+      - ".github/workflows/core-blast-radius.yml"
+
+jobs:
+  client-workspaces-gate:
+    name: typecheck + test (all clients/*)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "pnpm"
+
+      # Usa o pnpm-lock.yaml centralizado da raiz (S1.1). --frozen-lockfile
+      # falha se o lockfile estiver dessincronizado — nunca atualiza no CI.
+      - name: Install dependencies (frozen lockfile)
+        run: pnpm install --frozen-lockfile
+
+      # (ADR-004 / S2.8) Builda o core PRIMEIRO: os clients/* consomem `dist/*.js`
+      # em produção (condição `default` dos exports). Rodar o build aqui exercita
+      # o caminho `dist` a cada PR — cobrindo divergência dev(src)↔prod(dist), a
+      # mitigação anti-blast-radius de D1 aplicada ao packaging (§4.5, §9).
+      - name: Build @cms-core/core (dist/)
+        run: pnpm --filter @cms-core/core run build
+
+      # Gate anti-blast-radius: typecheck de todos os workspaces clients/*.
+      # Uma quebra de tipo causada por mudança no core reprova aqui (exit != 0).
+      - name: Typecheck all client workspaces
+        run: pnpm -r --filter "./clients/*" run typecheck
+
+      # Gate anti-blast-radius: testes de todos os workspaces clients/*.
+      - name: Test all client workspaces
+        run: pnpm -r --filter "./clients/*" run test

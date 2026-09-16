@@ -1,0 +1,7 @@
+# Normaliza as quebras de linha: LF no repositório, qualquer coisa no disco.
+# Sem isto, um fork no Windows e outro no Mac produzem diffs de arquivo inteiro
+# que não mudaram nada.
+* text=auto eol=lf
+
+# Gerado pelo pnpm — some do diff das revisões.
+pnpm-lock.yaml linguist-generated=true -diff

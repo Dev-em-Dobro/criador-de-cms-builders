@@ -1,0 +1,26 @@
+{
+  "name": "criador-de-cms",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Fábrica de CMS — monorepo (packages/core @cms-core + cli + clients/*).",
+  "workspaces": [
+    "packages/*",
+    "cli",
+    "clients/*"
+  ],
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=8"
+  },
+  "scripts": {
+    "cms-factory": "tsx cli/bin/cms-factory.ts",
+    "generate": "pnpm -r --filter \"./clients/*\" run generate",
+    "typecheck": "pnpm -r run typecheck",
+    "test": "pnpm -r run test",
+    "lint": "pnpm -r run lint --if-present"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.1"
+  }
+}

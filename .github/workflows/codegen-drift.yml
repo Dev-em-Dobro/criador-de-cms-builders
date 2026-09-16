@@ -1,0 +1,95 @@
+# .github/workflows/codegen-drift.yml
+#
+# Barreira anti-drift (S2.4 / §6.3 do doc de arquitetura) — mitiga o risco de
+# Alta Severidade "Codegen desalinhado com migrations" (§11.1).
+#
+# O step roda o pipeline determinístico: codegen (gen-enums + gen-content-types)
+# → drizzle-kit generate → drizzle-kit check. Se o schema Drizzle (com o enum
+# gerado do config) divergir das migrations commitadas, o build FALHA.
+#
+# ── Abordagem do `drizzle-kit check` (should-fix @po — DECLARADA) ─────────────
+# Nesta versão do drizzle-kit, `generate` e `check` rodam OFFLINE (sem
+# DATABASE_URL/DIRECT_URL): `generate` diffa o schema TS contra o journal de
+# migrations (não precisa de DB); `check` valida a consistência do journal
+# (colisões/hashes) — também sem DB. Portanto o gate config↔migrations é
+# executável em CI sem Postgres efêmero. O que NÃO é coberto aqui é o drift
+# live-DB-vs-schema (introspecção), que exigiria `DIRECT_URL` de um Postgres
+# efêmero — isso é escopo de S2.7/gen-env (provisionamento) e fica como melhoria
+# futura, NÃO como suposição não-verificada (§6.3, tabela CI vs local da S2.4).
+#
+# Ref: §6.1, §6.3, §11.1; ADR-003 §4.2 (predb:generate), §7.3 (determinismo).
+name: Codegen anti-drift gate
+
+on:
+  push:
+    paths:
+      - "clients/*/client.config.ts"
+      - "clients/*/db/**"
+      - "clients/*/lib/content/*.generated.ts"
+      - "cli/**"
+      - "packages/core/src/config/**"
+      - ".github/workflows/codegen-drift.yml"
+  pull_request:
+    paths:
+      - "clients/*/client.config.ts"
+      - "clients/*/db/**"
+      - "clients/*/lib/content/*.generated.ts"
+      - "cli/**"
+      - "packages/core/src/config/**"
+      - ".github/workflows/codegen-drift.yml"
+
+jobs:
+  drift-gate:
+    name: codegen + drizzle generate + check (0 diffs)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "pnpm"
+
+      - name: Install dependencies (frozen lockfile)
+        run: pnpm install --frozen-lockfile
+
+      # (ADR-004 / S2.8) Builda o core antes do pipeline: o codegen lê o config do
+      # core via `src` (condição `development`), mas manter o `dist` fresco aqui
+      # mantém a paridade com o build de produção e evita `dist` stale se um passo
+      # de `next build` for adicionado a este gate no futuro (§4.5).
+      - name: Build @cms-core/core (dist/)
+        run: pnpm --filter @cms-core/core run build
+
+      # 1) Regenera os *.generated.ts a partir do client.config.ts de CADA
+      #    cliente presente. Num fork sem clientes ainda, `-r` não encontra
+      #    workspace e os passos passam sem fazer nada — o gate só ganha dentes
+      #    quando existe um cliente para reprovar.
+      - name: Run codegen
+        run: pnpm -r --filter "./clients/*" run generate
+
+      # 2) Falha se o codegen produziu um diff vs os *.generated.ts commitados
+      #    (alguém editou o config sem commitar o gerado, ou editou o gerado à mão).
+      - name: Fail on uncommitted generated changes
+        run: git diff --exit-code -- "clients/**/*.generated.ts"
+
+      # 3) drizzle-kit generate — offline; NÃO deve emitir nova migration se o
+      #    schema (com o enum gerado) bate com as migrations commitadas.
+      - name: Drizzle generate (expect no new migration)
+        run: pnpm -r --filter "./clients/*" run db:generate
+
+      # 4) Falha se `db:generate` criou uma migration nova não-commitada.
+      - name: Fail on uncommitted migration
+        run: git diff --exit-code -- "clients/**/db/migrations/**"
+
+      # 5) drizzle-kit check — valida a consistência do journal de migrations
+      #    (offline). Ver a nota de abordagem no topo deste workflow.
+      - name: Drizzle check (journal consistency, 0 diffs)
+        run: pnpm -r --filter "./clients/*" exec drizzle-kit check

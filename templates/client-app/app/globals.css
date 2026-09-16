@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+/* O Tailwind v4 auto-detecta as fontes a partir da raiz do app e IGNORA
+   node_modules — logo as classes usadas DENTRO dos componentes de
+   `@cms-core/core/ui` (AdminNav, ContentEditor, MediaPicker, Modal, styles.ts)
+   nunca entravam no CSS. Sintoma: botões sem fundo (`bg-brand-dark` ausente,
+   `text-white` sobrando ⇒ texto branco no branco) e a barra mobile do admin
+   visível no desktop (`md:hidden` ausente). Este @source registra o core como
+   fonte de classes. Path relativo assume o layout do monorepo
+   (clients/<slug>/app/globals.css → packages/core). */
+@source "../../../packages/core/src/**/*.{ts,tsx}";
+
+/* Cores de marca + fonte: GERADAS de client.config.ts (branding) por gen-theme
+   (S2.6). Ver app/theme.generated.css. O RESTO do @theme (tokens semânticos +
+   spacing) é fixo do core e permanece abaixo (ADR-003 §3.7). */
+@import "./theme.generated.css";
+
+@theme {
+  /* Surfaces fixas — não são branding de cliente. brand red is a FILL colour
+     only. At 4.39:1 on white it fails WCAG AA for text, so never use
+     --color-brand for foreground copy (as cores de marca vêm do gerado). */
+  --color-line: #ece9e6; /* decorative border only — not a text colour */
+  --color-line-strong: #d6d1cc; /* 3:1+ for input borders (WCAG 1.4.11) */
+
+  /* Semantic status */
+  --color-danger: #b5342b;
+  --color-danger-surface: #fdf1f0;
+  --color-success: #1f6f43;
+  --color-success-surface: #eef7f1;
+  --color-draft: #6b6b6b;
+  --color-draft-surface: #f0f0f0;
+
+  /* Spacing scale — dashboard density */
+  --spacing-gutter: 1.5rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--color-ink);
+  background: #fff;
+}
+
+/* Consistent, visible focus ring on every interactive element.
+   Uses :focus-visible so mouse users don't see rings on click.
+   Longhands, not the `outline` shorthand: a var() inside the shorthand fails
+   substitution here and silently falls back to currentColor. */
+:focus-visible {
+  outline-width: 2px;
+  outline-style: solid;
+  outline-color: var(--color-brand-dark);
+  outline-offset: 2px;
+}
+
+/* Respect users who ask for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

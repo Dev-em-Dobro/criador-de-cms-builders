@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": ["node", "vitest/globals"],
+    "baseUrl": ".",
+    "paths": {
+      "@cms-core/core/config": ["../packages/core/src/config/index.ts"],
+      "@cms-core/core/engine": ["../packages/core/src/engine/index.ts"],
+      "@cms-core/core/media": ["../packages/core/src/media/index.ts"],
+      "@cms-core/core": ["../packages/core/src/index.ts"],
+      "@cms-core/core/*": ["../packages/core/src/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "bin/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

@@ -1,0 +1,61 @@
+# .github/workflows/factory-ci.yml
+#
+# CI da própria fábrica: typecheck + testes de `packages/core` e `cli`.
+#
+# Os outros dois workflows deste diretório protegem os CLIENTES gerados
+# (blast-radius do core, drift do codegen) e ficam dormentes num fork sem
+# clientes. Este aqui é o que roda desde o primeiro commit: garante que o
+# gerador e o core estão sãos antes de alguém gerar um CMS com eles.
+name: Factory CI
+
+on:
+  push:
+    paths:
+      - "packages/**"
+      - "cli/**"
+      - "templates/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - ".github/workflows/factory-ci.yml"
+  pull_request:
+    paths:
+      - "packages/**"
+      - "cli/**"
+      - "templates/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - ".github/workflows/factory-ci.yml"
+
+jobs:
+  factory:
+    name: typecheck + test (core + cli)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "pnpm"
+
+      - name: Install dependencies (frozen lockfile)
+        run: pnpm install --frozen-lockfile
+
+      # O core é consumido por `dist/` em produção (ADR-004): buildar aqui
+      # exercita esse caminho a cada PR, não só o `src` do modo development.
+      - name: Build @cms-core/core (dist/)
+        run: pnpm --filter @cms-core/core run build
+
+      - name: Typecheck
+        run: pnpm --filter @cms-core/core --filter @cms-core/cli run typecheck
+
+      - name: Test
+        run: pnpm --filter @cms-core/core --filter @cms-core/cli run test
